@@ -1,0 +1,71 @@
+Table departments {
+  department_id int [pk, increment]
+  name varchar(100) [not null, unique]
+  building varchar(50)
+  created_at timestamp [default: `now()`]
+}
+
+
+Table students {
+  student_id int [pk, increment]
+  first_name varchar(50) [not null]
+  last_name varchar(50) [not null]
+  email varchar(100) [not null, unique]
+  phone varchar(20) 
+  date_of_birth date
+  enrolment_date date [default: `now()`]
+  department_id int [ref: > departments.department_id]
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+}
+
+Table instructors {
+  instructor_id int [pk, increment]
+  first_name varchar(50) [not null]
+  last_name varchar(50) [not null]
+  email varchar(100) [not null, unique]
+  phone varchar(20) 
+  date_of_birth date
+  hire_date date [default: `now()`]
+  salary decimal(10, 2)
+  department_id int [ref: > departments.department_id]
+  created_at timestamp [default: `now()`]
+}
+
+Table courses {
+  course_id int [pk, increment]
+  course_code varhcar(20) [not null, unique]
+  name varchar(100) [not null]
+  description text
+  credits int 
+  department_id int [ref: > departments.department_id]
+  created_at timestamp [default: `now()`]
+}
+
+
+Table classes {
+  class_id int [pk, increment]
+  course_id int [not null, ref: > courses.course_id]
+  instructor_id int [ref: > instructors.instructor_id]
+  semester varchar(20) [not null]
+  year int [not null]
+  max_students int [default: 30]
+  schedule varchar(100)
+  created_at timestamp [default: `now()`]
+}
+
+Table enrollments {
+  enrollment_id int [pk, increment]
+  student_id int [not null, ref: > students.student_id]
+  class_id int [not null, ref: > classes.class_id]
+  enrollment_date date [default: `now()`] 
+  grade varchar(2)
+  created_at timestamp [default: `now()`]
+}
+
+
+
+
+
+
+
